@@ -39,8 +39,10 @@ function App() {
   const [winnerPlayer, setWinnerPlayer] = useState(null); // [X, O, null]
   const [tie, setTie] = useState(false);
   useEffect(() => {
-    setWinnerPlayer(calculateWinner(board));
-    if (board.every((el) => el !== null && winnerPlayer !== null)) {
+    const winner = calculateWinner(board);
+    setWinnerPlayer(winner);
+    // check if tie
+    if (!board.includes(null) && winner === null) {
       setTie(true);
     }
   }, [board]);
@@ -48,7 +50,7 @@ function App() {
     const boardCopy = [...board];
     // If user click an occupied square or if game is won, return
     if (winnerPlayer || boardCopy[i]) {
-      setWinnerPlayer(winner);
+      // setWinnerPlayer(winner);
       return;
     }
     // Put an X or an O in the clicked square
@@ -56,7 +58,6 @@ function App() {
     setBoard(boardCopy);
     setXIsNext(!xIsNext);
   };
-  console.log(board, winnerPlayer, tie);
   return (
     <div className='App'>
       <header className='min-h-screen py-10 max-w-5xl m-auto flex items-center justify-center text-center flex-col gap-4'>
